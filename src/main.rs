@@ -1,10 +1,9 @@
 use std::thread::sleep;
 use std::time::Duration;
-
-mod dmx_interface;
+use fl_dmx::DmxController;
 
 fn main() {
-    let mut controller = unsafe { dmx_interface::DmxController::new() };
+    let mut controller = unsafe { DmxController::new().unwrap() };
     controller.set_channel(1, 255);
     controller.set_channel(3, 255);
     controller.start_send();

@@ -3,5 +3,12 @@ name = "funky_lights"
 version = "0.1.0"
 edition = "2024"
 
+[workspace]
+members = [
+    "fl-dmx",
+    "fl-config",
+]
+
 [dependencies]
-libftdi1-sys = "1.1.3"
+fl-dmx    = { path = "fl-dmx" }
+fl-config = { path = "fl-config" }
