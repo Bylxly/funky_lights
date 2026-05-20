@@ -1,10 +1,10 @@
+use libftdi1_sys::*;
 use std::ffi::CStr;
-use std::sync::{Arc, Mutex};
 use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::{Arc, Mutex};
 use std::thread;
 use std::thread::sleep;
 use std::time::Duration;
-use libftdi1_sys::*;
 use thiserror::Error;
 
 #[derive(Debug, Error)]
@@ -41,26 +41,6 @@ pub struct DmxController {
 struct FtdiContext(*mut ftdi_context);
 unsafe impl Send for FtdiContext {}
 unsafe impl Sync for FtdiContext {}
-
-// move Outside {
-pub struct DmxFixture {
-    dimmer: u8,
-    red: u8,
-    green: u8,
-    blue: u8,
-    white: u8,
-    programme: u8,
-    macro_mode: u8,
-    strobe: u8,
-}
-
-impl DmxFixture {
-    pub fn to_channels(&self) -> [u8; 8] {
-        [self.dimmer, self.red, self.green, self.blue,
-            self.white, self.programme, self.macro_mode, self.strobe]
-    }
-}
-// }
 
 impl DmxController {
     pub unsafe fn new() -> Result<Self, DmxControllerError> {
@@ -110,7 +90,7 @@ impl DmxController {
             while running.load(Ordering::Relaxed) {
                 let frame = *universe.lock().unwrap();
                 let context = context.lock().unwrap();
-                send_frame(context.0, frame);
+                send_frame(context.0, frame).unwrap();
             }
         });
     }
@@ -120,10 +100,14 @@ impl DmxController {
     }
 
     pub fn set_channel(&mut self, channel: usize, value: u8) {
+        // DMX channel range
+        assert!(channel >= 1 && channel <= 512);
         self.universe.lock().unwrap()[channel] = value;
     }
 
     pub fn set_channels(&mut self, start: usize, values: &[u8]) {
+        // DMX channel range
+        assert!(start + values.len() - 1 <= 512);
         let mut universe = self.universe.lock().unwrap();
         for (i, &value) in values.iter().enumerate() {
             universe[start + i] = value
