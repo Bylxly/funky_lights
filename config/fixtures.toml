@@ -1,0 +1,33 @@
+[[fixture_profiles]]
+name = "PAR RGBW 8ch"
+
+channel_list = [
+    { name = "dimmer",     offset = 0, default = 0 },
+    { name = "red",        offset = 1, default = 0 },
+    { name = "green",      offset = 2, default = 0 },
+    { name = "blue",       offset = 3, default = 0 },
+    { name = "white",      offset = 4, default = 0 },
+    { name = "programme",  offset = 5, default = 0 },
+    { name = "macro_mode", offset = 6, default = 0 },
+    { name = "strobe",     offset = 7, default = 0 },
+]
+
+[[fixtures]]
+label         = "PAR 1"
+start_address = 1
+profile       = "PAR RGBW 8ch"
+
+[[fixtures]]
+label         = "PAR 2"
+start_address = 9
+profile       = "PAR RGBW 8ch"
+
+[[fixtures]]
+label         = "PAR 3"
+start_address = 17
+profile       = "PAR RGBW 8ch"
+
+[[fixtures]]
+label         = "PAR 4"
+start_address = 25
+profile       = "PAR RGBW 8ch"

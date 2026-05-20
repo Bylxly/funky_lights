@@ -1,8 +1,23 @@
+use fl_config::loader::load;
+use fl_dmx::DmxController;
+use std::path::Path;
 use std::thread::sleep;
 use std::time::Duration;
-use fl_dmx::DmxController;
 
 fn main() {
+    let result = load(Path::new("config/fixtures.toml"));
+
+    match result {
+        Ok((profiles, fixtures)) => {
+            println!("Loaded {} profiles", profiles.len());
+            println!("Loaded {} fixtures", fixtures.len());
+        }
+        Err(e) => {
+            println!("Error: {}", e);
+        }
+    }
+
+
     let mut controller = unsafe { DmxController::new().unwrap() };
     controller.set_channel(1, 255);
     controller.set_channel(3, 255);
