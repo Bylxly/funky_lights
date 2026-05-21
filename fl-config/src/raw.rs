@@ -25,3 +25,22 @@ pub(crate) struct RawConfig {
     pub(crate) fixture_profiles: Vec<RawFixtureProfile>,
     pub(crate) fixtures: Vec<RawFixture>,
 }
+
+
+
+#[derive(Deserialize)]
+pub(crate) struct RawBandConfig {
+    pub(crate) min: f32,
+    pub(crate) max: f32,
+}
+
+#[derive(Deserialize)]
+pub(crate) struct RawAudioConfig {
+    pub(crate) sample_rate: u32,
+    pub(crate) buffer_size: u32,
+    pub(crate) device: String,
+    pub(crate) sub_bass: RawBandConfig,
+    pub(crate) bass: RawBandConfig,
+    pub(crate) mid: RawBandConfig,
+    pub(crate) high: RawBandConfig,
+}

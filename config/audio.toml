@@ -1,0 +1,19 @@
+sample_rate = 44100
+buffer_size = 1024
+device      = "default"
+
+[sub_bass]
+min = 20.0
+max = 60.0
+
+[bass]
+min = 60.0
+max = 250.0
+
+[mid]
+min = 250.0
+max = 4000.0
+
+[high]
+min = 4000.0
+max = 20000.0

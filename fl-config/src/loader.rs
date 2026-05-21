@@ -1,9 +1,9 @@
-use crate::raw::RawConfig;
-use crate::{ConfigError, Fixture, FixtureProfile};
+use crate::raw::{RawAudioConfig, RawConfig};
+use crate::{AudioConfig, ConfigError, Fixture, FixtureProfile};
 use std::path::Path;
 use std::sync::Arc;
 
-pub fn load(path: &Path) -> Result<(Vec<Arc<FixtureProfile>>, Vec<Fixture>), ConfigError> {
+pub fn load_fixture_config(path: &Path) -> Result<(Vec<Arc<FixtureProfile>>, Vec<Fixture>), ConfigError> {
     let data = std::fs::read_to_string(path)?;
     let raw_config: RawConfig = toml::from_str(&data)?;
 
@@ -48,3 +48,10 @@ pub fn load(path: &Path) -> Result<(Vec<Arc<FixtureProfile>>, Vec<Fixture>), Con
     Ok((fixture_profiles, fixtures))
 }
 
+
+pub fn load_audio_config(path: &Path) ->  Result<AudioConfig, ConfigError> {
+    let data = std::fs::read_to_string(path)?;
+    let raw_audio_config: RawAudioConfig = toml::from_str(&data)?;
+
+    raw_audio_config.try_into()
+}

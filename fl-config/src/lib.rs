@@ -23,7 +23,14 @@ pub enum ConfigError {
     IoError(#[from] std::io::Error),
 
     #[error("TOML parse error: {0}")]
-    TomlError(#[from] toml::de::Error)
+    TomlError(#[from] toml::de::Error),
+
+
+    #[error("Band '{band}' has invalid band range")]
+    InvalidBandRange{band: String},
+
+    #[error("Value '{field}' is invalid. Reason: '{reason}'")]
+    InvalidValue {field: String, reason: String}
 }
 
 pub struct ChannelDef {
@@ -90,5 +97,126 @@ impl Fixture {
 
     pub fn get_profile(&self) -> &FixtureProfile {
         &self.profile
+    }
+}
+
+
+
+pub struct BandEnergies {
+    sub_bass: f32,
+    bass: f32,
+    mid: f32,
+    high: f32,
+}
+
+impl BandEnergies {
+    pub fn new() -> Self {
+        Self{
+            sub_bass: 0f32,
+            bass: 0f32,
+            mid: 0f32,
+            high: 0f32,
+        }
+    }
+
+    pub fn update(&mut self, sub_bass: f32, bass: f32, mid: f32, high: f32) {
+        self.sub_bass = sub_bass;
+        self.bass = bass;
+        self.mid = mid;
+        self.high = high;
+    }
+
+    pub fn get_sub_bass(&self) -> f32 {
+        self.sub_bass
+    }
+
+    pub fn get_bass(&self) -> f32 {
+        self.bass
+    }
+
+    pub fn get_mid(&self) -> f32 {
+        self.mid
+    }
+
+    pub fn get_high(&self) -> f32 {
+        self.high
+    }
+}
+
+pub struct BandConfig {
+    min: f32,
+    max: f32,
+}
+
+impl BandConfig {
+    pub fn new(min: f32, max: f32) -> Self {
+        Self{ min, max }
+    }
+
+    pub fn get_min(&self) -> f32 {
+        self.min
+    }
+
+    pub fn get_max(&self) -> f32 {
+        self.max
+    }
+}
+
+pub struct AudioConfig {
+    sample_rate: u32,
+    buffer_size: u32,
+    device: String,
+    sub_bass: BandConfig,
+    bass: BandConfig,
+    mid: BandConfig,
+    high: BandConfig,
+}
+
+impl AudioConfig {
+    pub fn new(
+        sample_rate: u32,
+        buffer_size: u32,
+        device: String,
+        sub_bass: BandConfig,
+        bass: BandConfig,
+        mid: BandConfig,
+        high: BandConfig) -> Self {
+        Self{
+            sample_rate,
+            buffer_size,
+            device,
+            sub_bass,
+            bass,
+            mid,
+            high
+        }
+    }
+
+    pub fn get_sample_rate(&self) -> u32 {
+        self.sample_rate
+    }
+
+    pub fn get_buffer_size(&self) -> u32 {
+        self.buffer_size
+    }
+
+    pub fn get_device(&self) -> &str {
+        &self.device
+    }
+
+    pub fn get_sub_bass(&self) -> &BandConfig {
+        &self.sub_bass
+    }
+
+    pub fn get_bass(&self) -> &BandConfig {
+        &self.bass
+    }
+
+    pub fn get_mid(&self) -> &BandConfig {
+        &self.mid
+    }
+
+    pub fn get_high(&self) -> &BandConfig {
+        &self.high
     }
 }
