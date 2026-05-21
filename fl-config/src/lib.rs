@@ -74,8 +74,7 @@ impl Fixture {
     pub fn new(label: &str, start_address: u16, profile: Arc<FixtureProfile>) -> Result<Self, ConfigError> {
         if label.is_empty() {return Err(ConfigError::EmptyName {type_name: "Fixture"})}
         if start_address > 512 || start_address == 0 {
-            //TODO: Error richtig definieren
-            return Err(ConfigError::InvalidAddress { fixture: "".to_string(), address: 0 })
+            return Err(ConfigError::InvalidAddress { fixture: label.to_string(), address: start_address })
         }
 
         Ok(Self{
