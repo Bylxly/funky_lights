@@ -1,6 +1,7 @@
 sample_rate = 44100
 buffer_size = 1024
 device      = "default"
+smoothing_factor   = 0.8
 
 [sub_bass]
 min = 20.0

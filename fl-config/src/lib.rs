@@ -165,6 +165,7 @@ impl BandConfig {
 pub struct AudioConfig {
     sample_rate: u32,
     buffer_size: u32,
+    smoothing_factor: f32,
     device: String,
     sub_bass: BandConfig,
     bass: BandConfig,
@@ -176,6 +177,7 @@ impl AudioConfig {
     pub fn new(
         sample_rate: u32,
         buffer_size: u32,
+        smoothing_factor: f32,
         device: String,
         sub_bass: BandConfig,
         bass: BandConfig,
@@ -184,6 +186,7 @@ impl AudioConfig {
         Self{
             sample_rate,
             buffer_size,
+            smoothing_factor,
             device,
             sub_bass,
             bass,
@@ -198,6 +201,10 @@ impl AudioConfig {
 
     pub fn get_buffer_size(&self) -> u32 {
         self.buffer_size
+    }
+
+    pub fn get_smoothing_factor(&self) -> f32 {
+        self.smoothing_factor
     }
 
     pub fn get_device(&self) -> &str {

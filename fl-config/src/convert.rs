@@ -48,10 +48,16 @@ impl TryFrom<RawAudioConfig> for AudioConfig {
             return Err(InvalidValue {field: "buffer_size".into(),
                 reason: "needs to be greater than 0".into()});
         }
+        
+        if value.smoothing_factor > 1.0 || value.smoothing_factor < 0.0 {
+            return Err(InvalidValue {field: "smoothing_factor".into(),
+                reason: "needs to be beween 0.0 and 1.0".into()})
+        }
 
         Ok(AudioConfig::new(
             value.sample_rate,
             value.buffer_size,
+            value.smoothing_factor,
             value.device,
             BandConfig::new(value.sub_bass.min, value.sub_bass.max),
             BandConfig::new(value.bass.min, value.bass.max),

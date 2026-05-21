@@ -38,6 +38,7 @@ pub(crate) struct RawBandConfig {
 pub(crate) struct RawAudioConfig {
     pub(crate) sample_rate: u32,
     pub(crate) buffer_size: u32,
+    pub(crate) smoothing_factor: f32,
     pub(crate) device: String,
     pub(crate) sub_bass: RawBandConfig,
     pub(crate) bass: RawBandConfig,
