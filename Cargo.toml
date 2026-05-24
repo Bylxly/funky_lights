@@ -6,9 +6,10 @@ edition = "2024"
 [workspace]
 members = [
     "fl-dmx",
-    "fl-config",
+    "fl-config", "fl-audio",
 ]
 
 [dependencies]
 fl-dmx    = { path = "fl-dmx" }
 fl-config = { path = "fl-config" }
+fl-audio = { path = "fl-audio" }
